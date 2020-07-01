@@ -121,7 +121,7 @@ for action in action_list:
 
         draw = ImageDraw.Draw(img_PIL)
         draw.text((int(image.shape[1] / 2), 30), action_name,
-        #          font=ImageFont.truetype('NotoSansCJK-Black.ttc', 40),
+                  font=ImageFont.truetype('NotoSansCJK-Black.ttc', 40),
                   fill=(255, 0, 0))  # linux
 
 
