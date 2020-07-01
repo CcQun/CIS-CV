@@ -63,7 +63,6 @@ while True:
                     cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2)
         cv2.rectangle(frame, (left, top), (right, bottom),
                       (0, 0, 255), 2)
-
     # show our detected faces along with smiling/not smiling labels
     cv2.imshow("Face Recognition", frame)
 
