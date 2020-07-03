@@ -1,20 +1,17 @@
 # -*- coding: utf-8 -*-
 
-'''
-使用ANN做情感分析
-'''
-
 # 导入包
+from cnnnet import CNNNet
+from keras.utils import np_utils
 from oldcare.preprocessing import SimplePreprocessor
 from oldcare.datasets import SimpleDatasetLoader
 from imutils import paths
 from sklearn.preprocessing import LabelEncoder
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import classification_report
-from keras.models import Sequential
-from keras.layers.core import Dense
 from keras.optimizers import SGD
 from keras.optimizers import Adam
+from keras.optimizers import RMSprop
 from keras.utils import to_categorical
 import numpy as np
 import matplotlib.pyplot as plt
@@ -26,8 +23,9 @@ loss_plot_path = 'plots/loss.png'
 output_model_path = 'models/face_expression.hdf5'
 
 # 全局常量
-TARGET_IMAGE_WIDTH = 28
-TARGET_IMAGE_HEIGHT = 28
+TARGET_IMAGE_WIDTH = 48
+TARGET_IMAGE_HEIGHT = 48
+NUM_CLASSES = 2
 LR = 0.001  # 学习率
 BATCH_SIZE = 64
 EPOCHS = 40
@@ -44,11 +42,8 @@ print("[INFO] 导入图像...")
 image_paths = list(paths.list_images(dataset_path))  # path included
 (X, y) = sdl.load(image_paths, verbose=500, grayscale=True)
 
-# Flatten (reshape the data matrix)
-# convert from (13164,TARGET_IMAGE_WIDTH,TARGET_IMAGE_HEIGHT)
-# into (13164,TARGET_IMAGE_WIDTH*TARGET_IMAGE_HEIGHT)
-X = X.reshape((X.shape[0], TARGET_IMAGE_WIDTH * TARGET_IMAGE_HEIGHT))
-X = X.astype("float") / 255.0  # 特征缩放，是非常重要的步骤
+print(X.shape)
+print(y.shape)
 
 # Show some information on memory consumption of the images
 print("[INFO] features matrix: {:.1f}MB"
@@ -56,33 +51,36 @@ print("[INFO] features matrix: {:.1f}MB"
 
 # Label encoder
 le = LabelEncoder()
-y = to_categorical(le.fit_transform(y), 2)
+y = to_categorical(le.fit_transform(y), NUM_CLASSES)
 print(le.classes_)
 
 # 拆分数据集
-(X_train, X_test, y_train, y_test) = train_test_split(X, y,
-                                                      test_size=0.25,
-                                                      random_state=42)
+(trainData, testData, trainLabels, testLabels) = train_test_split(X, y, test_size=0.2, random_state=0)
 
-################################################3
+# matrix shape should be: num_samples x rows x columns x depth
+trainData = trainData.reshape((trainData.shape[0], TARGET_IMAGE_WIDTH, TARGET_IMAGE_HEIGHT, 1))
+testData = testData.reshape((testData.shape[0], TARGET_IMAGE_WIDTH, TARGET_IMAGE_HEIGHT, 1))
+
+# scale data to the range of [0,1]
+trainData = trainData.astype('float32') / 255.0
+testData = testData.astype('float32') / 255.0
+
+################################################
 # 第二部分：创建并训练模型
+# initialize the optimizer and model
+print('[INFO] 编译模型...')
+# opt = SGD(lr=LR)
+opt = Adam(lr=LR)
+# opt = RMSprop(lr=LR)
+model = CNNNet.build(TARGET_IMAGE_WIDTH, TARGET_IMAGE_HEIGHT, NUM_CLASSES, '', 1)
+model.compile(loss='categorical_crossentropy',
+              optimizer=opt, metrics=['accuracy'])
 
-# 创建模型
-model = Sequential()
-model.add(Dense(1024,
-                input_shape=(TARGET_IMAGE_WIDTH * TARGET_IMAGE_HEIGHT,),
-                activation="relu"))
-model.add(Dense(512, activation="relu"))
-model.add(Dense(2, activation="softmax"))
-
-# 训练模型
-print("[INFO] 训练模型...")
-# sgd = SGD(LR)
-adam = Adam(LR)
-model.compile(loss="categorical_crossentropy", optimizer=adam,
-              metrics=["accuracy"])
-H = model.fit(X_train, y_train, validation_data=(X_test, y_test),
-              epochs=EPOCHS, batch_size=BATCH_SIZE, verbose=1)
+# train model
+print('[INFO] 训练模型...')
+H = model.fit(trainData, trainLabels,
+              validation_data=(testData, testLabels),
+              batch_size=BATCH_SIZE, epochs=EPOCHS, verbose=1)
 
 ################################################
 # 第三部分：评估模型
@@ -110,11 +108,12 @@ plt.legend()
 plt.savefig(loss_plot_path)
 
 # 打印分类报告
-label_names = le.classes_.tolist()
-print("[INFO] 评估模型...")
-predictions = model.predict(X_test, batch_size=BATCH_SIZE)
-print(classification_report(y_test.argmax(axis=1),
-                            predictions.argmax(axis=1), target_names=label_names))
+# show accuracy on the testing set
+print('[INFO] 评估模型...')
+predictions = model.predict(testData, batch_size=32)
+print(classification_report(testLabels.argmax(axis=1),
+                            predictions.argmax(axis=1),
+                            target_names=[str(i) for i in range(NUM_CLASSES)]))
 
 ################################################
 # 第四部分：保存模型
