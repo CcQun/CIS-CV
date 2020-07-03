@@ -20,7 +20,7 @@ import matplotlib.pyplot as plt
 dataset_path = 'images'
 accuracy_plot_path = 'plots/accuracy.png'
 loss_plot_path = 'plots/loss.png'
-output_model_path = 'models/face_expression.hdf5'
+output_model_path = 'models/sentiment_analysis.hdf5'
 
 # 全局常量
 TARGET_IMAGE_WIDTH = 48
@@ -28,7 +28,7 @@ TARGET_IMAGE_HEIGHT = 48
 NUM_CLASSES = 2
 LR = 0.001  # 学习率
 BATCH_SIZE = 64
-EPOCHS = 40
+EPOCHS = 60
 
 ################################################
 # 第一部分：数据预处理
