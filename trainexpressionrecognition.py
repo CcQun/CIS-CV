@@ -2,16 +2,13 @@
 
 # 导入包
 from cnnnet import CNNNet
-from keras.utils import np_utils
 from oldcare.preprocessing import SimplePreprocessor
 from oldcare.datasets import SimpleDatasetLoader
 from imutils import paths
 from sklearn.preprocessing import LabelEncoder
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import classification_report
-from keras.optimizers import SGD
 from keras.optimizers import Adam
-from keras.optimizers import RMSprop
 from keras.utils import to_categorical
 import numpy as np
 import matplotlib.pyplot as plt
