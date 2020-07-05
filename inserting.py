@@ -51,11 +51,14 @@ if allow == '1':  # 如果允许插入
                'event_date': event_date,
                'event_location': event_location,
                'oldperson_id': old_people_id}
+    print(payload)
+
 
     headers = {'content-type': 'application/json'}
     ret = requests.post(url, json=payload, headers=headers)
     if ret.status_code == 200:
         text = json.loads(ret.text)
+        print(text)
         if text['code'] == 1:
             print('插入成功')
         else:

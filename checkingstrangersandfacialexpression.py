@@ -78,7 +78,7 @@ facial_expression_id_to_name = fileassistant.get_facial_expression_info(
 # 控制陌生人检测
 strangers_timing = 0  # 计时开始
 strangers_start_time = 0  # 开始时间
-strangers_limit_time = 2  # if >= 2 seconds, then he/she is a stranger.
+strangers_limit_time = 4  # if >= 2 seconds, then he/she is a stranger.
 
 # 控制情感分析
 facial_expression_timing = 0  # 计时开始
@@ -99,6 +99,8 @@ facial_expression_model = load_model(facial_expression_model_path)
 print('[INFO] 开始检测陌生人和表情...')
 # 不断循环
 counter = 0
+old_count = 0
+old_name = ''
 while True:
     counter += 1
     # grab the current frame
@@ -137,6 +139,13 @@ while True:
 
     # 处理每一张识别到的人脸
     for ((left, top, right, bottom), name) in zip(face_location_list, names):
+        # # 人脸识别错误矫正
+        # if len(face_location_list) == 1 and id_card_to_type[name] == 'old_people':
+        #     old_count = 15
+        #     old_name = name
+        # if old_count != 0:
+        #     name = old_name
+        #     old_count -= 1
         # 将人脸框出来
         rectangle_color = (0, 0, 255)
         print(name)
