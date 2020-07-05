@@ -19,7 +19,7 @@ import shutil
 import time
 
 # 全局参数
-audio_dir = '/home/reed/git-project/old_care_system/任务源代码/任务5.老人员工义工人脸图像采集 / audios'
+audio_dir = 'audios'
 
 # 控制参数
 error = 0

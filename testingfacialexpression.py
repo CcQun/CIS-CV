@@ -76,7 +76,7 @@ while True:
         roi = np.expand_dims(roi, axis=0)
 
         # determine facial expression
-        (neural, smile) = model.predict(roi)[0]
+        (smile, neural) = model.predict(roi)[0]
         label = "Neural" if neural > smile else "Smile"
 
         # display the label and bounding box rectangle on the output

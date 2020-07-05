@@ -8,6 +8,10 @@
 
 import datetime
 import argparse
+import json
+import requests
+
+url = "http://localhost:60000/eventInfo/addEvent"
 
 f = open('allowinsertdatabase.txt', 'r')
 content = f.read()
@@ -41,16 +45,23 @@ if allow == '1':  # 如果允许插入
 
     event_date = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-    payload = {'id': 0,  # id=0 means insert; id=1 means update;
-               'event_desc': event_desc,
+    # payload = {'id': 0,  # id=0 means insert; id=1 means update;
+    payload = {'event_desc': event_desc,
                'event_type': event_type,
                'event_date': event_date,
                'event_location': event_location,
                'oldperson_id': old_people_id}
 
-    print('调用插入事件数据的API')
-
-    print('插入成功')
+    headers = {'content-type': 'application/json'}
+    ret = requests.post(url, json=payload, headers=headers)
+    if ret.status_code == 200:
+        text = json.loads(ret.text)
+        if text['code'] == 1:
+            print('插入成功')
+        else:
+            print('插入失败')
+    else:
+        print('error')
 
 else:
-    print('just pass')
+    print('等待中')

@@ -32,5 +32,4 @@ def get_facial_expression_info(facial_expression_info_path):
     for index, row in dataset.iterrows():
         facial_expression_id_to_name[row[0]] = row[1]
 
-
     return facial_expression_id_to_name
