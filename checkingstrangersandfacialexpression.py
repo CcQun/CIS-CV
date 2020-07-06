@@ -9,6 +9,8 @@ python checkingstrangersandfacialexpression.py --filename tests/room_01.mp4
 
 # 导入包
 import argparse
+from oldcare.utils import insertingassistant
+from oldcare.utils import communicationassistant
 from oldcare.facial import FaceUtil
 from PIL import Image, ImageDraw, ImageFont
 from oldcare.utils import fileassistant
@@ -17,59 +19,8 @@ from keras.preprocessing.image import img_to_array
 import cv2
 import time
 import numpy as np
-import os
 import imutils
-import subprocess
 import pandas as pd
-import datetime
-import json
-import requests
-
-def inserting(event_desc, event_type, event_location, old_people_id, output_smile_path, frame):
-    url = "http://localhost:60000/eventInfo/addEvent"
-
-    f = open('allowinsertdatabase.txt', 'r')
-    content = f.read()
-    f.close()
-    allow = content[11:12]
-
-    if allow == '1':  # 如果允许插入
-        f = open('allowinsertdatabase.txt', 'w')
-        f.write('is_allowed=0')
-        f.close()
-
-        print('准备插入数据库')
-
-        event_type_int = int(event_type) if event_type else None
-        old_people_id_int = int(old_people_id) if old_people_id else None
-        event_date = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-
-        # payload = {'id': 0,  # id=0 means insert; id=1 means update;
-        payload = {'event_desc': event_desc,
-                   'event_type': event_type_int,
-                   'event_date': event_date,
-                   'event_location': event_location,
-                   'oldperson_id': old_people_id_int}
-        print(payload)
-
-        path = ''
-        headers = {'content-type': 'application/json'}
-        ret = requests.post(url, json=payload, headers=headers)
-        if ret.status_code == 200:
-            text = json.loads(ret.text)
-            print(text)
-            if text['code'] == 1:
-                path = text['msg']
-                print('插入成功')
-            else:
-                print('插入失败')
-        else:
-            print('error')
-        # cv2.imwrite(os.path.join(output_smile_path,
-        #                          'snapshot_%s.jpg'
-        #                          % (time.strftime('%Y%m%d_%H%M%S'))), frame)
-    else:
-        print('等待中')
 
 stranger_type = 0
 old_smile_type = 1
@@ -77,25 +28,17 @@ old_smile_type = 1
 # your python path
 python_path = 'D:\\Coding\\Anaconda3\\envs\\tensorflowwithdlib\\python.exe'
 # 全局变量
-facial_recognition_model_path = 'models/face_recognition_hog.pickle'
-facial_expression_model_path = 'models/face_expression.hdf5'
-
 output_stranger_path = 'supervision/strangers'
 output_smile_path = 'supervision/smile'
+
+facial_recognition_model_path = 'models/face_recognition_hog.pickle'
+facial_expression_model_path = 'models/face_expression.hdf5'
 
 people_info_path = 'info/people_info.csv'
 facial_expression_info_path = 'info/facial_expression_info.csv'
 
-url = "http://localhost:60000/else/queryAll"
-headers = {'content-type': 'application/json'}
-requestData = {}
-ret = requests.post(url, json=requestData, headers=headers)
-if ret.status_code == 200:
-    text = json.loads(ret.text)
-    data = text['data']
-    data.append({'id_card': 'Unknown', 'name': '陌生人', 'type': 'stranger'})
-    df = pd.DataFrame(data)
-    df.to_csv(people_info_path, index=False)
+# 更新一下people_info.csv
+communicationassistant.get_people_info()
 
 # 得到当前时间
 current_time = time.strftime('%Y-%m-%d %H:%M:%S',
@@ -171,8 +114,6 @@ while True:
     face_location_list, names = faceutil.get_face_location_and_name(
         frame)
 
-    # print('face_location_list:', face_location_list)
-    # print('names', names)
 
     # 得到画面的四分之一位置和四分之三位置，并垂直划线
     one_fourth_image_center = (int(VIDEO_WIDTH / 4),
@@ -189,13 +130,13 @@ while True:
 
     # 处理每一张识别到的人脸
     for ((left, top, right, bottom), name) in zip(face_location_list, names):
-        # # 人脸识别错误矫正
-        # if len(face_location_list) == 1 and id_card_to_type[name] == 'old_people':
-        #     old_count = 15
-        #     old_name = name
-        # if old_count != 0:
-        #     name = old_name
-        #     old_count -= 1
+        # 人脸识别错误矫正
+        if len(face_location_list) == 1 and id_card_to_type[name] == 'old_people':
+            old_count = 15
+            old_name = name
+        if old_count != 0:
+            name = old_name
+            old_count -= 1
         # 将人脸框出来
         rectangle_color = (0, 0, 255)
         print(name)
@@ -231,21 +172,11 @@ while True:
                     print('[EVENT] %s, 房间, 陌生人出现!!!'
                           % (current_time))
 
-                    url = "http://localhost:60000/eventInfo/getEventId"
-                    path = next_event_id(url, {})
+                    # event_desc, event_type, event_location, old_people_id, output_path, frame
+                    insertingassistant.inserting(event_desc, stranger_type, event_location, None, output_stranger_path,
+                                                 frame)
 
-                    # cv2.imwrite(os.path.join(output_stranger_path,
-                    #                          'snapshot_%s.jpg'
-                    #                          % (time.strftime('%Y%m%d_%H%M%S'))), frame)
-
-                    # insert into database
-                    # command = '%s inserting.py --event_desc %s --event_type 2 --event_location %s' % (
-                    #     python_path, event_desc, event_location)
-                    # p = subprocess.Popen(command, shell=True)
-
-                    inserting(event_desc, stranger_type, event_location, None, output_smile_path, frame)
-
-                    # 开始陌生人追踪
+                    # 开始陌生人追踪f
                     unknown_face_center = (int((right + left) / 2),
                                            int((top + bottom) / 2))
 
@@ -301,16 +232,10 @@ while True:
                         event_location = '房间'
                         print('[EVENT] %s, 房间, %s正在笑.'
                               % (current_time, id_card_to_name[name]))
-                        # cv2.imwrite(os.path.join(output_smile_path,
-                        #                          'snapshot_%s.jpg'
-                        #                          % (time.strftime('%Y%m%d_%H%M%S'))), frame)
 
-                        # insert into database
-                        # command = '%s inserting.py --event_desc %s --event_type 0 --event_location %s --old_people_id %d' % (
-                        #     python_path, event_desc, event_location, int(name))
-                        # p = subprocess.Popen(command, shell=True)
-
-                        inserting(event_desc, old_smile_type, event_location, int(name), output_smile_path, frame)
+                        # event_desc, event_type, event_location, old_people_id, output_path, frame
+                        insertingassistant.inserting(event_desc, old_smile_type, event_location, int(name),
+                                                     output_smile_path, frame)
 
             else:  # everything is ok
                 facial_expression_timing = 0

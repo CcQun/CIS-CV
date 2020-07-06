@@ -10,12 +10,15 @@ python checkingfalldetection.py --filename tests/corridor_01.avi
 # import the necessary packages
 from keras.preprocessing.image import img_to_array
 from keras.models import load_model
+from oldcare.utils import insertingassistant
 import numpy as np
 import cv2
 import os
 import time
 import subprocess
 import argparse
+
+fall_type = 2
 
 # 传入参数
 ap = argparse.ArgumentParser()
@@ -33,7 +36,7 @@ fall_limit_time = 1  # if >= 1 seconds, then he/she falls.
 model_path = 'models/fall_detection.hdf5'
 output_fall_path = 'supervision/fall'
 # your python path
-python_path = '/home/reed/anaconda3/envs/tensorflow/bin/python'
+python_path = 'D:\\Coding\\Anaconda3\\envs\\tensorflowwithdlib\\python.exe'
 
 # 全局常量
 TARGET_WIDTH = 64
@@ -96,12 +99,10 @@ while True:
                 event_desc = '有人摔倒!!!'
                 event_location = '走廊'
                 print('[EVENT] %s, 走廊, 有人摔倒!!!' % (current_time))
-                cv2.imwrite(os.path.join(output_fall_path,
-                                         'snapshot_%s.jpg'
-                                         % (time.strftime('%Y%m%d_%H%M%S'))), image)
-                # insert into database
-                command = '%s inserting.py --event_desc %s --event_type 3 --event_location % s'% (python_path, event_desc, event_location)
-                p = subprocess.Popen(command, shell=True)
+
+                # event_desc, event_type, event_location, old_people_id, output_path, frame
+                insertingassistant.inserting(event_desc, fall_type, event_location, None, output_fall_path,
+                                             image)
 
     cv2.imshow('Fall detection', image)
 

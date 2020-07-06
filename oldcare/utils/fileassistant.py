@@ -3,10 +3,8 @@
 文件处理相关的函数
 '''
 
-import numpy as np
+
 import pandas as pd
-import json
-import requests
 
 
 def get_people_info(people_info_path):
