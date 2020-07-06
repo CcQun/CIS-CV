@@ -1,6 +1,5 @@
 # import the necessary packages
 from keras.models import Sequential
-from keras.layers.normalization import BatchNormalization
 from keras.layers.convolutional import Conv2D
 from keras.layers.convolutional import MaxPooling2D
 from keras.layers.core import Activation
@@ -25,31 +24,27 @@ class MiniVGGNet:
 			chanDim = 1
 
 		# first CONV => RELU => CONV => RELU => POOL layer set
-		model.add(Conv2D(32, (3, 3), padding="same",
+		model.add(Conv2D(64, (3, 3), padding="same",
 			input_shape=inputShape))
 		model.add(Activation("relu"))
-		model.add(BatchNormalization(axis=chanDim))
-		model.add(Conv2D(32, (3, 3), padding="same"))
+		model.add(Conv2D(64, (3, 3), padding="same"))
 		model.add(Activation("relu"))
-		model.add(BatchNormalization(axis=chanDim))
 		model.add(MaxPooling2D(pool_size=(2, 2)))
-		model.add(Dropout(0.25))
+		model.add(Dropout(0.5))
 
 		# second CONV => RELU => CONV => RELU => POOL layer set
-		model.add(Conv2D(64, (3, 3), padding="same"))
+		model.add(Conv2D(80, (3, 3), padding="same"))
 		model.add(Activation("relu"))
-		model.add(BatchNormalization(axis=chanDim))
-		model.add(Conv2D(64, (3, 3), padding="same"))
+		model.add(Conv2D(80, (3, 3), padding="same"))
 		model.add(Activation("relu"))
-		model.add(BatchNormalization(axis=chanDim))
 		model.add(MaxPooling2D(pool_size=(2, 2)))
-		model.add(Dropout(0.25))
+		model.add(Dropout(0.5))
 
 		# first (and only) set of FC => RELU layers
 		model.add(Flatten())
 		model.add(Dense(512))
 		model.add(Activation("relu"))
-		model.add(BatchNormalization())
+		# model.add(BatchNormalization())
 		model.add(Dropout(0.5))
 
 		# softmax classifier

@@ -17,6 +17,7 @@ import numpy as np
 import os
 import shutil
 import time
+import sys
 
 # 全局参数
 audio_dir = 'audios'
@@ -27,12 +28,17 @@ start_time = None
 limit_time = 2  # 2 秒
 
 # 传入参数
-ap = argparse.ArgumentParser()
-ap.add_argument("-ic", "--id", required=True,
-                help="")
-ap.add_argument("-id", "--imagedir", required=False, default="./images",
-                help="")
-args = vars(ap.parse_args())
+# ap = argparse.ArgumentParser()
+# ap.add_argument("-ic", "--id", required=True,
+#                 help="")
+# ap.add_argument("-id", "--imagedir", required=False, default="./images",
+#                 help="")
+# args = vars(ap.parse_args())
+
+print(sys.argv)
+args = {}
+args['id'] = sys.argv[1]
+args['imagedir'] = 'images'
 
 action_list = ['blink', 'open_mouth', 'smile', 'rise_head', 'bow_head',
                'look_left', 'look_right']
