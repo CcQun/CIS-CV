@@ -8,10 +8,14 @@
 
 import time
 
+from oldcare.utils.pathassistant import get_path
+
 seconds = 1  # 每经过60秒才允许再次插入
 
+insert_control_file_path = get_path('insert_control_file_path')
+
 while True:
-    f = open('allowinsertdatabase.txt', 'r')
+    f = open(insert_control_file_path, 'r')
     content = f.read()
     f.close()
 
@@ -23,7 +27,7 @@ while True:
             print('wait %d seconds...' % (i))
             time.sleep(1)
 
-        f = open('allowinsertdatabase.txt', 'w')
+        f = open(insert_control_file_path, 'w')
         f.write('is_allowed=1')
         f.close()
 

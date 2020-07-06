@@ -16,6 +16,8 @@ import time
 import argparse
 
 # 传入参数
+from oldcare.utils.pathassistant import get_path
+
 ap = argparse.ArgumentParser()
 ap.add_argument("-f", "--filename", required=False, default='',
                 help="")
@@ -28,7 +30,7 @@ fall_start_time = 0  # 开始时间
 fall_limit_time = 1  # if >= 1 seconds, then he/she falls.
 
 # 全局变量
-model_path = 'models/fall_detection.hdf5'
+model_path = get_path('fall_model_path')
 
 # 全局常量
 TARGET_WIDTH = 64

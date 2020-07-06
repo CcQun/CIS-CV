@@ -14,10 +14,12 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # 全局变量
-dataset_path = 'dataset/expdataset'
-accuracy_plot_path = 'plots/accuracy.png'
-loss_plot_path = 'plots/loss.png'
-output_model_path = 'models/face_expression.hdf5'
+from oldcare.utils.pathassistant import get_path
+
+dataset_path = get_path('exp_dataset_path')
+accuracy_plot_path = get_path('exp_accuracy_plot_path')
+loss_plot_path = get_path('exp_loss_plot_path')
+output_model_path = get_path('facial_expression_model_path')
 
 # 全局常量
 TARGET_IMAGE_WIDTH = 48

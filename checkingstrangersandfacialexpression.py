@@ -10,6 +10,7 @@ python checkingstrangersandfacialexpression.py --filename tests/room_01.mp4
 # 导入包
 import argparse
 from oldcare.utils import insertingassistant
+from oldcare.utils.pathassistant import get_path
 from oldcare.utils import communicationassistant
 from oldcare.facial import FaceUtil
 from PIL import Image, ImageDraw, ImageFont
@@ -28,14 +29,14 @@ old_smile_type = 1
 # your python path
 python_path = 'D:\\Coding\\Anaconda3\\envs\\tensorflowwithdlib\\python.exe'
 # 全局变量
-output_stranger_path = 'supervision/strangers'
-output_smile_path = 'supervision/smile'
+output_stranger_path = get_path('output_stranger_path', 1)
+output_smile_path = get_path('output_smile_path', 1)
 
-facial_recognition_model_path = 'models/face_recognition_hog.pickle'
-facial_expression_model_path = 'models/face_expression.hdf5'
+facial_recognition_model_path = get_path('facial_recognition_model_path')
+facial_expression_model_path = get_path('facial_expression_model_path')
 
-people_info_path = 'info/people_info.csv'
-facial_expression_info_path = 'info/facial_expression_info.csv'
+people_info_path = get_path('people_info_path')
+facial_expression_info_path = get_path('facial_expression_info_path')
 
 # 更新一下people_info.csv
 communicationassistant.get_people_info()
@@ -113,7 +114,6 @@ while True:
 
     face_location_list, names = faceutil.get_face_location_and_name(
         frame)
-
 
     # 得到画面的四分之一位置和四分之三位置，并垂直划线
     one_fourth_image_center = (int(VIDEO_WIDTH / 4),

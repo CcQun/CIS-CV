@@ -12,6 +12,7 @@ import argparse
 from oldcare.facial import FaceUtil
 from oldcare.audio import audioplayer
 from PIL import Image, ImageDraw, ImageFont
+from oldcare.utils.pathassistant import get_path
 import cv2
 import numpy as np
 import os
@@ -38,7 +39,8 @@ limit_time = 2  # 2 秒
 print(sys.argv)
 args = {}
 args['id'] = sys.argv[1]
-args['imagedir'] = 'images'
+args['sys_id'] = sys.argv[2]
+args['imagedir'] = get_path('imagedir')
 
 action_list = ['blink', 'open_mouth', 'smile', 'rise_head', 'bow_head',
                'look_left', 'look_right']

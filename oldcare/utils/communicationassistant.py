@@ -1,8 +1,9 @@
 import json
 import requests
 import pandas as pd
+from oldcare.utils.pathassistant import get_path
 
-people_info_path = 'info/people_info.csv'
+people_info_path = get_path('people_info_path')
 
 
 def get_response(url, request):

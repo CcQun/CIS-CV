@@ -18,9 +18,11 @@ from sklearn.preprocessing import LabelEncoder
 from keras.preprocessing.image import ImageDataGenerator
 
 # 全局变量
-dataset_path = 'dataset/falldataset'
-output_model_path = 'models/fall_detection.hdf5'
-output_plot_path = 'plots/fall_detection.png'
+from oldcare.utils.pathassistant import get_path
+
+dataset_path = get_path('fall_dataset_path')
+output_model_path = get_path('fall_model_path')
+output_plot_path = get_path('fall_output_plot_path')
 
 # 全局常量
 TARGET_WIDTH = 64

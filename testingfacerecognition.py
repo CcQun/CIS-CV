@@ -15,13 +15,15 @@ import time
 import argparse
 
 # 传入参数
+from oldcare.utils.pathassistant import get_path
+
 ap = argparse.ArgumentParser()
 ap.add_argument("-f", "--filename", required=False, default='',
                 help="")
 args = vars(ap.parse_args())
 
 # 全局变量
-facial_recognition_model_path = 'models/face_recognition_hog.pickle'
+facial_recognition_model_path = get_path('facial_recognition_model_path')
 input_video = args['filename']
 
 # 初始化摄像头

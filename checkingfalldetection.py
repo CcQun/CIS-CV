@@ -11,6 +11,7 @@ python checkingfalldetection.py --filename tests/corridor_01.avi
 from keras.preprocessing.image import img_to_array
 from keras.models import load_model
 from oldcare.utils import insertingassistant
+from oldcare.utils.pathassistant import get_path
 import numpy as np
 import cv2
 import os
@@ -33,8 +34,8 @@ fall_start_time = 0  # 开始时间
 fall_limit_time = 1  # if >= 1 seconds, then he/she falls.
 
 # 全局变量
-model_path = 'models/fall_detection.hdf5'
-output_fall_path = 'supervision/fall'
+model_path = get_path('fall_model_path')
+output_fall_path = get_path('output_fall_path')
 # your python path
 python_path = 'D:\\Coding\\Anaconda3\\envs\\tensorflowwithdlib\\python.exe'
 

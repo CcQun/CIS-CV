@@ -18,13 +18,15 @@ import time
 import argparse
 
 # 传入参数
+from oldcare.utils.pathassistant import get_path
+
 ap = argparse.ArgumentParser()
 ap.add_argument("-f", "--filename", required=False, default='',
                 help="")
 args = vars(ap.parse_args())
 
 # 全局变量
-model_path = 'models/face_expression.hdf5'
+model_path = get_path('facial_expression_model_path')
 input_video = args['filename']
 
 # 全局常量
