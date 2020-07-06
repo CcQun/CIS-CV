@@ -21,8 +21,58 @@ import os
 import imutils
 import subprocess
 import pandas as pd
+import datetime
 import json
 import requests
+
+def inserting(event_desc, event_type, event_location, old_people_id, output_smile_path, frame):
+    url = "http://localhost:60000/eventInfo/addEvent"
+
+    f = open('allowinsertdatabase.txt', 'r')
+    content = f.read()
+    f.close()
+    allow = content[11:12]
+
+    if allow == '1':  # 如果允许插入
+        f = open('allowinsertdatabase.txt', 'w')
+        f.write('is_allowed=0')
+        f.close()
+
+        print('准备插入数据库')
+
+        event_type_int = int(event_type) if event_type else None
+        old_people_id_int = int(old_people_id) if old_people_id else None
+        event_date = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+        # payload = {'id': 0,  # id=0 means insert; id=1 means update;
+        payload = {'event_desc': event_desc,
+                   'event_type': event_type_int,
+                   'event_date': event_date,
+                   'event_location': event_location,
+                   'oldperson_id': old_people_id_int}
+        print(payload)
+
+        path = ''
+        headers = {'content-type': 'application/json'}
+        ret = requests.post(url, json=payload, headers=headers)
+        if ret.status_code == 200:
+            text = json.loads(ret.text)
+            print(text)
+            if text['code'] == 1:
+                path = text['msg']
+                print('插入成功')
+            else:
+                print('插入失败')
+        else:
+            print('error')
+        # cv2.imwrite(os.path.join(output_smile_path,
+        #                          'snapshot_%s.jpg'
+        #                          % (time.strftime('%Y%m%d_%H%M%S'))), frame)
+    else:
+        print('等待中')
+
+stranger_type = 0
+old_smile_type = 1
 
 # your python path
 python_path = 'D:\\Coding\\Anaconda3\\envs\\tensorflowwithdlib\\python.exe'
@@ -180,14 +230,20 @@ while True:
                     event_location = '房间'
                     print('[EVENT] %s, 房间, 陌生人出现!!!'
                           % (current_time))
-                    cv2.imwrite(os.path.join(output_stranger_path,
-                                             'snapshot_%s.jpg'
-                                             % (time.strftime('%Y%m%d_%H%M%S'))), frame)
+
+                    url = "http://localhost:60000/eventInfo/getEventId"
+                    path = next_event_id(url, {})
+
+                    # cv2.imwrite(os.path.join(output_stranger_path,
+                    #                          'snapshot_%s.jpg'
+                    #                          % (time.strftime('%Y%m%d_%H%M%S'))), frame)
 
                     # insert into database
-                    command = '%s inserting.py --event_desc %s --event_type 2 --event_location %s' % (
-                        python_path, event_desc, event_location)
-                    p = subprocess.Popen(command, shell=True)
+                    # command = '%s inserting.py --event_desc %s --event_type 2 --event_location %s' % (
+                    #     python_path, event_desc, event_location)
+                    # p = subprocess.Popen(command, shell=True)
+
+                    inserting(event_desc, stranger_type, event_location, None, output_smile_path, frame)
 
                     # 开始陌生人追踪
                     unknown_face_center = (int((right + left) / 2),
@@ -245,14 +301,16 @@ while True:
                         event_location = '房间'
                         print('[EVENT] %s, 房间, %s正在笑.'
                               % (current_time, id_card_to_name[name]))
-                        cv2.imwrite(os.path.join(output_smile_path,
-                                                 'snapshot_%s.jpg'
-                                                 % (time.strftime('%Y%m%d_%H%M%S'))), frame)
+                        # cv2.imwrite(os.path.join(output_smile_path,
+                        #                          'snapshot_%s.jpg'
+                        #                          % (time.strftime('%Y%m%d_%H%M%S'))), frame)
 
                         # insert into database
-                        command = '%s inserting.py --event_desc %s --event_type 0 --event_location %s --old_people_id %d' % (
-                            python_path, event_desc, event_location, int(name))
-                        p = subprocess.Popen(command, shell=True)
+                        # command = '%s inserting.py --event_desc %s --event_type 0 --event_location %s --old_people_id %d' % (
+                        #     python_path, event_desc, event_location, int(name))
+                        # p = subprocess.Popen(command, shell=True)
+
+                        inserting(event_desc, old_smile_type, event_location, int(name), output_smile_path, frame)
 
             else:  # everything is ok
                 facial_expression_timing = 0
@@ -266,7 +324,8 @@ while True:
                                                cv2.COLOR_BGR2RGB))
 
         draw = ImageDraw.Draw(img_PIL)
-        final_label = id_card_to_name[name] + ': ' + facial_expression_id_to_name[facial_expression_label] if facial_expression_label else id_card_to_name[name]
+        final_label = id_card_to_name[name] + ': ' + facial_expression_id_to_name[
+            facial_expression_label] if facial_expression_label else id_card_to_name[name]
         draw.text((left, top - 30), final_label,
                   # font=ImageFont.truetype('NotoSansCJK-Black.ttc', 40),
                   font=ImageFont.truetype('simsun.ttc', 40),
