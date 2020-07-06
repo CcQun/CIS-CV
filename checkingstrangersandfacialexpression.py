@@ -26,8 +26,6 @@ import pandas as pd
 stranger_type = 0
 old_smile_type = 1
 
-# your python path
-python_path = 'D:\\Coding\\Anaconda3\\envs\\tensorflowwithdlib\\python.exe'
 # 全局变量
 output_stranger_path = get_path('output_stranger_path', 1)
 output_smile_path = get_path('output_smile_path', 1)

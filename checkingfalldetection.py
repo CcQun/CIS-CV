@@ -36,8 +36,6 @@ fall_limit_time = 1  # if >= 1 seconds, then he/she falls.
 # 全局变量
 model_path = get_path('fall_model_path')
 output_fall_path = get_path('output_fall_path')
-# your python path
-python_path = 'D:\\Coding\\Anaconda3\\envs\\tensorflowwithdlib\\python.exe'
 
 # 全局常量
 TARGET_WIDTH = 64
