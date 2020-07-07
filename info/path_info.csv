@@ -9,6 +9,8 @@ output_activity_path,supervision\activity
 facial_recognition_model_path,models\face_recognition_hog.pickle
 facial_expression_model_path,models\face_expression.hdf5
 fall_model_path,models\fall_detection.hdf5
+prototxt_file_path,models\mobilenet_ssd\MobileNetSSD_deploy.prototxt
+model_file_path,models\mobilenet_ssd\MobileNetSSD_deploy.caffemodel
 people_info_path,info\people_info.csv
 facial_expression_info_path,info\facial_expression_info.csv
 imagedir,images
