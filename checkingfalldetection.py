@@ -103,7 +103,8 @@ while True:
 
     cv2.imshow('Fall detection', image)
 
-    # Press 'ESC' for exiting video
+    # Press 'ESC' for exiting videodat
+    # GetFaceData.py
     k = cv2.waitKey(1) & 0xff
     if k == 27:
         break

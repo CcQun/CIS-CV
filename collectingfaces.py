@@ -11,6 +11,7 @@ python collectingfaces.py --id 106 --imagedir /home/reed/git-project/
 import argparse
 from oldcare.facial import FaceUtil
 from oldcare.audio import audioplayer
+from oldcare.utils import communicationassistant
 from PIL import Image, ImageDraw, ImageFont
 from oldcare.utils.pathassistant import get_path
 import cv2
@@ -40,6 +41,7 @@ print(sys.argv)
 args = {}
 args['id'] = sys.argv[1]
 args['sys_id'] = sys.argv[2]
+args['type'] = sys.argv[3]
 args['imagedir'] = get_path('imagedir')
 
 action_list = ['blink', 'open_mouth', 'smile', 'rise_head', 'bow_head',
@@ -48,6 +50,10 @@ action_map = {'blink': '请眨眼', 'open_mouth': '请张嘴',
               'smile': '请笑一笑', 'rise_head': '请抬头',
               'bow_head': '请低头', 'look_left': '请看左边',
               'look_right': '请看右边'}
+message_map = {'blink': '开始采集15张眨眼图片', 'open_mouth': '开始采集15张张嘴图片',
+               'smile': '开始采集15张笑的图片', 'rise_head': '开始采集15张抬头图片',
+               'bow_head': '开始采集15张低头图片', 'look_left': '开始采集15张看左边的图片',
+               'look_right': '开始采集15张看右边的图片'}
 # 设置摄像头
 cam = cv2.VideoCapture(0)
 # cam = cv2.VideoCapture('D:\\CodingProject\\PyCharmProject\\CIS-CV\\任务5.老人员工义工人脸图像采集\\videos\\奥巴马.flv')
@@ -114,6 +120,16 @@ os.mkdir(os.path.join(args['imagedir'], args['id']))
 for action in action_list:
     # audioplayer.play_audio(os.path.join(audio_dir, action + '.mp3'))
     action_name = action_map[action]
+    message = message_map[action]
+
+    url = "http://localhost:10000/else/cffeedback"
+    request = {'userId': args['sys_id'],
+               'id': args['id'],
+               'type': args['type'],
+               'message': message}
+    response = communicationassistant.get_response(url, request)
+    if response == 'error':
+        print('[ERROR] 发送失败')
 
     counter = 1
     for i in range(15):
@@ -151,6 +167,14 @@ for action in action_list:
         counter += 1
 
 # 结束
+url = "http://localhost:10000/else/cffeedback"
+request = {'userId': args['sys_id'],
+           'id': args['id'],
+           'type': args['type'],
+           'message': '采集完成'}
+response = communicationassistant.get_response(url, request)
+if response == 'error':
+    print('[ERROR] 发送失败')
 print('[INFO] 采集完毕')
 # audioplayer.play_audio(os.path.join(audio_dir, 'end_capturing.mp3'))
 
