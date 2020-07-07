@@ -10,13 +10,11 @@ python checkingfalldetection.py --filename tests/corridor_01.avi
 # import the necessary packages
 from keras.preprocessing.image import img_to_array
 from keras.models import load_model
-from oldcare.utils import insertingassistant
+from oldcare.utils.insertingassistant import inserting
 from oldcare.utils.pathassistant import get_path
 import numpy as np
 import cv2
-import os
 import time
-import subprocess
 import argparse
 
 fall_type = 2
@@ -35,7 +33,7 @@ fall_limit_time = 1  # if >= 1 seconds, then he/she falls.
 
 # 全局变量
 model_path = get_path('fall_model_path')
-output_fall_path = get_path('output_fall_path')
+output_fall_path = get_path('output_fall_path', 1)
 
 # 全局常量
 TARGET_WIDTH = 64
@@ -100,8 +98,8 @@ while True:
                 print('[EVENT] %s, 走廊, 有人摔倒!!!' % (current_time))
 
                 # event_desc, event_type, event_location, old_people_id, output_path, frame
-                insertingassistant.inserting(event_desc, fall_type, event_location, None, output_fall_path,
-                                             image)
+                inserting(event_desc, fall_type, event_location, None, output_fall_path,
+                          image)
 
     cv2.imshow('Fall detection', image)
 

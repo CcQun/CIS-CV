@@ -1,9 +1,11 @@
 path_name,path
 absolute_project_path,D:\CodingProject\PyCharmProject\CIS-CV\
 absolute_snapshot_path,D:\CodingProject\PyCharmProject\CIS-CV\
-output_fall_path,supervision\fal
+output_fall_path,supervision\fall
 output_stranger_path,supervision\strangers
 output_smile_path,supervision\smile
+output_fence_path,supervision\fence
+output_activity_path,supervision\activity
 facial_recognition_model_path,models\face_recognition_hog.pickle
 facial_expression_model_path,models\face_expression.hdf5
 fall_model_path,models\fall_detection.hdf5

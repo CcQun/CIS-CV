@@ -7,10 +7,9 @@
 '''
 
 import time
-
 from oldcare.utils.pathassistant import get_path
 
-seconds = 1  # 每经过60秒才允许再次插入
+seconds = 60  # 每经过60秒才允许再次插入
 
 insert_control_file_path = get_path('insert_control_file_path')
 

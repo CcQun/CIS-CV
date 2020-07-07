@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 # 导入包
-from cnnnet import CNNNet
+from oldcare.conv.cnnnet import CNNNet
 from oldcare.preprocessing import SimplePreprocessor
 from oldcare.datasets import SimpleDatasetLoader
 from imutils import paths

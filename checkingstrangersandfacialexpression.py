@@ -9,7 +9,7 @@ python checkingstrangersandfacialexpression.py --filename tests/room_01.mp4
 
 # 导入包
 import argparse
-from oldcare.utils import insertingassistant
+from oldcare.utils.insertingassistant import inserting
 from oldcare.utils.pathassistant import get_path
 from oldcare.utils import communicationassistant
 from oldcare.facial import FaceUtil
@@ -171,7 +171,7 @@ while True:
                           % (current_time))
 
                     # event_desc, event_type, event_location, old_people_id, output_path, frame
-                    insertingassistant.inserting(event_desc, stranger_type, event_location, None, output_stranger_path,
+                    inserting(event_desc, stranger_type, event_location, None, output_stranger_path,
                                                  frame)
 
                     # 开始陌生人追踪f
@@ -232,7 +232,7 @@ while True:
                               % (current_time, id_card_to_name[name]))
 
                         # event_desc, event_type, event_location, old_people_id, output_path, frame
-                        insertingassistant.inserting(event_desc, old_smile_type, event_location, int(name),
+                        inserting(event_desc, old_smile_type, event_location, int(name),
                                                      output_smile_path, frame)
 
             else:  # everything is ok
