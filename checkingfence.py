@@ -61,7 +61,7 @@ CLASSES = ["background", "aeroplane", "bicycle", "bird", "boat",
 # if a video path was not supplied, grab a reference to the webcam
 if not input_video:
     print("[INFO] starting video stream...")
-    vs = cv2.VideoCapture(0)
+    vs = cv2.VideoCapture(get_path('rtmp'))
     time.sleep(2)
 else:
     print("[INFO] opening video file...")

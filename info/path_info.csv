@@ -1,6 +1,7 @@
 path_name,path
 absolute_project_path,D:\CodingProject\PyCharmProject\CIS-CV\
 absolute_snapshot_path,D:\CodingProject\PyCharmProject\CIS-CV\
+rtmp,rtmp://192.168.1.35:1935/stream/pupils_trace
 output_fall_path,supervision\fall
 output_stranger_path,supervision\strangers
 output_smile_path,supervision\smile

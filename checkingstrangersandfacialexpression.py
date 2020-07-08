@@ -79,7 +79,7 @@ facial_expression_limit_time = 2  # if >= 2 seconds, he/she is smiling
 
 # 初始化摄像头
 if not input_video:
-    vs = cv2.VideoCapture(0)
+    vs = cv2.VideoCapture(get_path('rtmp'))
     time.sleep(2)
 else:
     vs = cv2.VideoCapture(input_video)
