@@ -7,6 +7,8 @@ import cv2
 import pickle
 import os
 
+from oldcare.utils import communicationassistant
+
 
 class FaceUtil:
     # 超参数
@@ -90,19 +92,31 @@ class FaceUtil:
 
         return face_location_list, names
 
-    def save_embeddings(self, image_paths, output_encoding_file_path):
+    def save_embeddings(self, image_paths, output_encoding_file_path, userId):
         warning = ''
 
         # initialize the list of known encodings and known names
         known_encodings = []
         known_names = []
 
+        count = 0
         # loop over the image paths
         for (i, image_path) in enumerate(image_paths):
+            count += 1
             # extract the person name from the image path
             print("[INFO] processing image {}/{}"
                   .format(i + 1, len(image_paths)))
             name = image_path.split(os.path.sep)[-2]  # person name
+
+            if count == 50:
+                url = "http://localhost:10000/else/trainfrfeedback"
+                rate = int((i + 1) / len(image_paths) * 100)
+                request = {'userId': userId,
+                           'message': '已训练' + str(rate) + '%'}
+                response = communicationassistant.get_response(url, request)
+                if response == 'error':
+                    print('[ERROR] 发送失败')
+                count = 0
 
             # load the input image and convert it from
             # RGB (OpenCV ordering) to dlib ordering (RGB)

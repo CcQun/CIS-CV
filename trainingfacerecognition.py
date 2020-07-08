@@ -4,13 +4,15 @@
 训练人脸识别模型
 '''
 
-
 # import the necessary packages
+import sys
 from imutils import paths
 from oldcare.facial import FaceUtil
 
 # global variable
 from oldcare.utils.pathassistant import get_path
+
+userId = sys.argv[1]
 
 dataset_path = get_path('imagedir')
 output_encoding_file_path = get_path('facial_recognition_model_path')
@@ -24,4 +26,4 @@ if len(image_paths) == 0:
 else:
     faceutil = FaceUtil()
     print("[INFO] training face embeddings...")
-    faceutil.save_embeddings(image_paths, output_encoding_file_path)
+    faceutil.save_embeddings(image_paths, output_encoding_file_path, userId)
