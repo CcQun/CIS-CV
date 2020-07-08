@@ -3,7 +3,6 @@ import time
 import subprocess as sp
 import multiprocessing
 import psutil
-from oldcare.utils import streampushassistant
 
 
 class stream_pusher(object):
@@ -51,27 +50,17 @@ class stream_pusher(object):
         push_frame_p.daemon = True
         push_frame_p.start()
 
-
-if __name__ == '__main__':
-    cap = cv2.VideoCapture(0)
-    cap.set(3, 640)
-    cap.set(4, 480)
-    rtmpUrl = get_path('rtmp', 2)
+def get_pusher(rtmpUrl):
     raw_q = multiprocessing.Queue()
+    pusher = stream_pusher(rtmp_url=rtmpUrl, raw_frame_q=raw_q)
+    return pusher
 
-    my_pusher = stream_pusher(rtmp_url=rtmpUrl, raw_frame_q=raw_q)
-    my_pusher.run()
+def push(pusher, frame):
+    raw_q = pusher.raw_frame_q
+    pusher.run()
     while True:
-        _, raw_frame = cap.read()
-        info = (raw_frame, '2', '3', '4')
+        info = (frame, '2', '3', '4')
         if not raw_q.full():
             raw_q.put(info)
         cv2.waitKey(1)
     cap.release()
-
-    # pusher = streampushassistant.get_pusher(rtmpUrl)
-    # while True:
-    #     _, raw_frame = cap.read()
-    #     streampushassistant.push(pusher, raw_frame)
-    #     cv2.waitKey(1)
-    # cap.release()

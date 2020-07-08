@@ -12,5 +12,7 @@ def get_path(path_name, type=0):
         paths[values[i, 0]] = values[i, 1]
     if type == 0:
         return os.path.join(paths['absolute_project_path'], paths[path_name])
-    else:
+    elif type == 1:
         return os.path.join(paths['absolute_snapshot_path'], paths[path_name])
+    else:
+        return paths[path_name]

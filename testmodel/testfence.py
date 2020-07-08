@@ -54,7 +54,7 @@ net = cv2.dnn.readNetFromCaffe(prototxt_file_path, model_file_path)
 # if a video path was not supplied, grab a reference to the webcam
 if not input_video:
     print("[INFO] starting video stream...")
-    vs = cv2.VideoCapture(get_path('rtmp'))
+    vs = cv2.VideoCapture(get_path('rtmp', 2))
     time.sleep(2)
 else:
     print("[INFO] opening video file...")

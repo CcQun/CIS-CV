@@ -79,7 +79,7 @@ facial_expression_limit_time = 2  # if >= 2 seconds, he/she is smiling
 
 # 初始化摄像头
 if not input_video:
-    vs = cv2.VideoCapture(get_path('rtmp'))
+    vs = cv2.VideoCapture(get_path('rtmp', 2))
     time.sleep(2)
 else:
     vs = cv2.VideoCapture(input_video)
@@ -106,8 +106,7 @@ while True:
     if not input_video:
         frame = cv2.flip(frame, 1)
 
-    frame = imutils.resize(frame, width=VIDEO_WIDTH,
-                           height=VIDEO_HEIGHT)  # 压缩，加快识别速度
+    frame = imutils.resize(frame, width=VIDEO_WIDTH, height=VIDEO_HEIGHT)  # 压缩，加快识别速度
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)  # grayscale，情感分析
 
     face_location_list, names = faceutil.get_face_location_and_name(
@@ -172,7 +171,7 @@ while True:
 
                     # event_desc, event_type, event_location, old_people_id, output_path, frame
                     inserting(event_desc, stranger_type, event_location, None, output_stranger_path,
-                                                 frame)
+                              frame)
 
                     # 开始陌生人追踪f
                     unknown_face_center = (int((right + left) / 2),
@@ -233,7 +232,7 @@ while True:
 
                         # event_desc, event_type, event_location, old_people_id, output_path, frame
                         inserting(event_desc, old_smile_type, event_location, int(name),
-                                                     output_smile_path, frame)
+                                  output_smile_path, frame)
 
             else:  # everything is ok
                 facial_expression_timing = 0
