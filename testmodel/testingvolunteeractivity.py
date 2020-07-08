@@ -18,7 +18,7 @@ import numpy as np
 import argparse
 
 # 传入参数
-from oldcare.utils.pathassistant import get_path
+from oldcare.utils.pathassistant import get_path, get_camera
 
 ap = argparse.ArgumentParser()
 ap.add_argument("-f", "--filename", required=False, default='',
@@ -43,7 +43,7 @@ id_card_to_name, id_card_to_type = fileassistant.get_people_info(
 
 # 初始化摄像头
 if not input_video:
-    vs = cv2.VideoCapture(get_path('rtmp', 2))
+    vs = cv2.VideoCapture(get_camera())
     time.sleep(2)
 else:
     vs = cv2.VideoCapture(input_video)

@@ -10,7 +10,7 @@ python checkingstrangersandfacialexpression.py --filename tests/room_01.mp4
 # 导入包
 import argparse
 from oldcare.utils.insertingassistant import inserting
-from oldcare.utils.pathassistant import get_path
+from oldcare.utils.pathassistant import get_path, get_camera
 from oldcare.utils import communicationassistant
 from oldcare.facial import FaceUtil
 from PIL import Image, ImageDraw, ImageFont
@@ -79,7 +79,7 @@ facial_expression_limit_time = 2  # if >= 2 seconds, he/she is smiling
 
 # 初始化摄像头
 if not input_video:
-    vs = cv2.VideoCapture(get_path('rtmp', 2))
+    vs = cv2.VideoCapture(get_camera())
     time.sleep(2)
 else:
     vs = cv2.VideoCapture(input_video)

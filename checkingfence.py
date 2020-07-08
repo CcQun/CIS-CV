@@ -13,7 +13,7 @@ python checkingfence.py --filename tests/yard_01.mp4
 from oldcare.track import CentroidTracker
 from oldcare.track import TrackableObject
 from oldcare.utils.insertingassistant import inserting
-from oldcare.utils.pathassistant import get_path
+from oldcare.utils.pathassistant import get_path, get_camera
 from imutils.video import FPS
 import numpy as np
 import imutils
@@ -61,7 +61,7 @@ CLASSES = ["background", "aeroplane", "bicycle", "bird", "boat",
 # if a video path was not supplied, grab a reference to the webcam
 if not input_video:
     print("[INFO] starting video stream...")
-    vs = cv2.VideoCapture(get_path('rtmp', 2))
+    vs = cv2.VideoCapture(get_camera())
     time.sleep(2)
 else:
     print("[INFO] opening video file...")

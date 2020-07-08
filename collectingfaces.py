@@ -13,7 +13,7 @@ from oldcare.facial import FaceUtil
 from oldcare.audio import audioplayer
 from oldcare.utils import communicationassistant
 from PIL import Image, ImageDraw, ImageFont
-from oldcare.utils.pathassistant import get_path
+from oldcare.utils.pathassistant import get_path, get_camera
 import cv2
 import numpy as np
 import os
@@ -55,7 +55,7 @@ message_map = {'blink': '开始采集15张眨眼图片', 'open_mouth': '开始�
                'bow_head': '开始采集15张低头图片', 'look_left': '开始采集15张看左边的图片',
                'look_right': '开始采集15张看右边的图片'}
 # 设置摄像头
-cam = cv2.VideoCapture(get_path('rtmp', 2))
+cam = cv2.VideoCapture(get_camera())
 # cam = cv2.VideoCapture('D:\\CodingProject\\PyCharmProject\\CIS-CV\\任务5.老人员工义工人脸图像采集\\videos\\奥巴马.flv')
 cam.set(3, 640)  # set video widht
 cam.set(4, 480)  # set video height

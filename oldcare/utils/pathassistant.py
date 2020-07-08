@@ -16,3 +16,9 @@ def get_path(path_name, type=0):
         return os.path.join(paths['absolute_snapshot_path'], paths[path_name])
     else:
         return paths[path_name]
+
+def get_camera():
+    c = get_path('rtmp', 2)
+    if c == '0':
+        c = 0
+    return c
