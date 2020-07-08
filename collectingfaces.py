@@ -13,7 +13,7 @@ from oldcare.facial import FaceUtil
 from oldcare.audio import audioplayer
 from oldcare.utils import communicationassistant
 from PIL import Image, ImageDraw, ImageFont
-from oldcare.utils.pathassistant import get_path, get_camera
+from oldcare.utils.pathassistant import get_path
 import cv2
 import numpy as np
 import os
