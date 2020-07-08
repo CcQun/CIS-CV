@@ -20,8 +20,8 @@ exp_accuracy_plot_path,plots\accuracy.png
 exp_loss_plot_path,plots\loss.png
 fall_dataset_path,dataset\falldataset
 fall_output_plot_path,plots\fall_detection.png
-rtmp_computer_input,rtmp://182.92.84.33:1935/stream/base
-rtmp_room_input,rtmp://182.92.84.33:1935/stream/base
+rtmp_computer_input,rtmp://182.92.84.33:1935/stream/test
+rtmp_room_input,rtmp://182.92.84.33:1935/stream/test
 rtmp_desk_input,rtmp://182.92.84.33:1935/stream/base
 rtmp_yard_input,rtmp://182.92.84.33:1935/stream/base
 rtmp_corridor_input,rtmp://182.92.84.33:1935/stream/base
