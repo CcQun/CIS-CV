@@ -17,8 +17,8 @@ def get_path(path_name, type=0):
     else:
         return paths[path_name]
 
-def get_camera():
-    c = get_path('rtmp', 2)
-    if c == '0':
-        c = 0
-    return c
+# def get_camera():
+#     c = get_path('rtmp_computer_input', 2)
+#     if c == '0':
+#         c = 0
+#     return c

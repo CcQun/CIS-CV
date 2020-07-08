@@ -12,7 +12,7 @@ python testingfence.py --filename tests/yard_01.mp4
 # import the necessary packages
 from oldcare.track import CentroidTracker
 from oldcare.track import TrackableObject
-from oldcare.utils.pathassistant import get_path, get_camera
+from oldcare.utils.pathassistant import get_path
 from imutils.video import FPS
 import numpy as np
 import imutils
@@ -54,7 +54,7 @@ net = cv2.dnn.readNetFromCaffe(prototxt_file_path, model_file_path)
 # if a video path was not supplied, grab a reference to the webcam
 if not input_video:
     print("[INFO] starting video stream...")
-    vs = cv2.VideoCapture(get_camera())
+    vs = cv2.VideoCapture(get_path('rtmp_yard_input', 2))
     time.sleep(2)
 else:
     print("[INFO] opening video file...")

@@ -11,7 +11,7 @@ python checkingfalldetection.py --filename tests/corridor_01.avi
 from keras.preprocessing.image import img_to_array
 from keras.models import load_model
 from oldcare.utils.insertingassistant import inserting
-from oldcare.utils.pathassistant import get_path, get_camera
+from oldcare.utils.pathassistant import get_path
 import numpy as np
 import cv2
 import time
@@ -41,7 +41,7 @@ TARGET_HEIGHT = 64
 
 # 初始化摄像头
 if not input_video:
-    vs = cv2.VideoCapture(get_camera())
+    vs = cv2.VideoCapture(get_path('rtmp_corridor_input', 2))
     time.sleep(2)
 else:
     vs = cv2.VideoCapture(input_video)

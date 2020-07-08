@@ -1,7 +1,6 @@
 path_name,path
 absolute_project_path,D:\CodingProject\PyCharmProject\CIS-CV\
 absolute_snapshot_path,D:\CodingProject\PyCharmProject\CIS-CV\
-rtmp,0
 output_fall_path,supervision\fall
 output_stranger_path,supervision\strangers
 output_smile_path,supervision\smile
@@ -21,3 +20,13 @@ exp_accuracy_plot_path,plots\accuracy.png
 exp_loss_plot_path,plots\loss.png
 fall_dataset_path,dataset\falldataset
 fall_output_plot_path,plots\fall_detection.png
+rtmp_computer_input,rtmp://182.92.84.33:1935/stream/base
+rtmp_room_input,rtmp://182.92.84.33:1935/stream/base
+rtmp_desk_input,rtmp://182.92.84.33:1935/stream/base
+rtmp_yard_input,rtmp://182.92.84.33:1935/stream/base
+rtmp_corridor_input,rtmp://182.92.84.33:1935/stream/base
+rtmp_computer_output,rtmp://182.92.84.33:1935/stream/computer
+rtmp_room_output,rtmp://182.92.84.33:1935/stream/room
+rtmp_desk_output,rtmp://182.92.84.33:1935/stream/desk
+rtmp_yard_output,rtmp://182.92.84.33:1935/stream/yard
+rtmp_corridor_output,rtmp://182.92.84.33:1935/stream/corridor

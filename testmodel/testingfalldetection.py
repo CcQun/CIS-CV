@@ -16,7 +16,7 @@ import time
 import argparse
 
 # 传入参数
-from oldcare.utils.pathassistant import get_path, get_camera
+from oldcare.utils.pathassistant import get_path
 
 ap = argparse.ArgumentParser()
 ap.add_argument("-f", "--filename", required=False, default='',
@@ -38,7 +38,7 @@ TARGET_HEIGHT = 64
 
 # 初始化摄像头
 if not input_video:
-    vs = cv2.VideoCapture(get_camera())
+    vs = cv2.VideoCapture(get_path('rtmp_corridor_input', 2))
     time.sleep(2)
 else:
     vs = cv2.VideoCapture(input_video)
