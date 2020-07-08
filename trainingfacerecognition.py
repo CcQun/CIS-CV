@@ -10,6 +10,7 @@ from imutils import paths
 from oldcare.facial import FaceUtil
 
 # global variable
+from oldcare.utils import communicationassistant
 from oldcare.utils.pathassistant import get_path
 
 userId = sys.argv[1]
@@ -27,3 +28,11 @@ else:
     faceutil = FaceUtil()
     print("[INFO] training face embeddings...")
     faceutil.save_embeddings(image_paths, output_encoding_file_path, userId)
+    url = "http://localhost:10000/else/trainfrfeedback"
+    request = {'userId': userId,
+               'message': '训练完成'}
+    response = communicationassistant.get_response(url, request)
+    if response == 'error':
+        print('[ERROR] 发送失败')
+    count = 0
+    exit(0)
