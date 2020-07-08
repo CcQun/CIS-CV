@@ -4,6 +4,7 @@ import subprocess as sp
 import multiprocessing
 import psutil
 from oldcare.utils import streampushassistant
+from oldcare.utils.pathassistant import get_path
 
 
 class stream_pusher(object):
