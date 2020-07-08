@@ -62,6 +62,7 @@ CLASSES = ["background", "aeroplane", "bicycle", "bird", "boat",
 if not input_video:
     print("[INFO] starting video stream...")
     vs = cv2.VideoCapture(get_path('rtmp_yard_input', 2))
+    # vs = cv2.VideoCapture(0)
     time.sleep(2)
 else:
     print("[INFO] opening video file...")
@@ -161,7 +162,7 @@ while True:
                 # box coordinates and then start the dlib correlation
                 # tracker
                 tracker = dlib.correlation_tracker()
-                rect = dlib.rectangle(startX, startY, endX, endY)
+                rect = dlib.rectangle(int(startX), int(startY), int(endX), int(endY))
                 tracker.start_track(rgb, rect)
 
                 # add the tracker to our list of trackers so we can
