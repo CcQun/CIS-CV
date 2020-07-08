@@ -104,8 +104,8 @@ class FaceUtil:
         for (i, image_path) in enumerate(image_paths):
             count += 1
             # extract the person name from the image path
-            print("[INFO] processing image {}/{}"
-                  .format(i + 1, len(image_paths)))
+            # print("[INFO] processing image {}/{}"
+            #       .format(i + 1, len(image_paths)))
             name = image_path.split(os.path.sep)[-2]  # person name
 
             if count == 50:
