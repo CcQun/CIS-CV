@@ -66,8 +66,6 @@ counter = 0
 while True:
     counter += 1
     _, image = cam.read()
-    for i in range(5):
-        _, image = cam.read()
     if counter <= 10:  # 放弃前10帧
         continue
     image = cv2.flip(image, 1)
