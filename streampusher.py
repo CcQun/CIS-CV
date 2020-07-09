@@ -57,7 +57,7 @@ if __name__ == '__main__':
     cap = cv2.VideoCapture(0)
     cap.set(3, 640)
     cap.set(4, 480)
-    rtmpUrl = 'rtmp://182.92.84.33:1935/stream/test'
+    rtmpUrl = get_path('rtmp_base', 2)
     raw_q = multiprocessing.Queue()
 
     my_pusher = stream_pusher(rtmp_url=rtmpUrl, raw_frame_q=raw_q)

@@ -21,7 +21,12 @@ import cv2
 import time
 import numpy as np
 import imutils
-import pandas as pd
+from oldcare.utils.streampushassistant import stream_pusher
+import multiprocessing
+
+raw_q = multiprocessing.Queue()
+my_pusher = stream_pusher(rtmp_url=get_path('rtmp_room_output', 2), raw_frame_q=raw_q)
+my_pusher.run()
 
 stranger_type = 0
 old_smile_type = 1
@@ -256,8 +261,13 @@ while True:
         # 转换回OpenCV格式
         frame = cv2.cvtColor(np.asarray(img_PIL), cv2.COLOR_RGB2BGR)
     # show our detected faces along with smiling/not smiling labels
-    cv2.imshow("Checking Strangers and Old People's Face Expression",
-               frame)
+    # cv2.imshow("Checking Strangers and Old People's Face Expression",
+    #            frame)
+
+    info = (frame, '2', '3', '4')
+    if not raw_q.full():
+        raw_q.put(info)
+    cv2.waitKey(1)
 
     # Press 'ESC' for exiting video
     k = cv2.waitKey(1) & 0xff

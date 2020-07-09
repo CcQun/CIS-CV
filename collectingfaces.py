@@ -20,6 +20,12 @@ import os
 import shutil
 import time
 import sys
+from oldcare.utils.streampushassistant import stream_pusher
+import multiprocessing
+
+raw_q = multiprocessing.Queue()
+my_pusher = stream_pusher(rtmp_url=get_path('rtmp_computer_output', 2), raw_frame_q=raw_q)
+my_pusher.run()
 
 # 全局参数
 audio_dir = 'audios'
@@ -82,7 +88,7 @@ while True:
         cv2.rectangle(image, (left, top), (right, bottom),
                       (0, 0, 255), 2)
 
-    cv2.imshow('Collecting Faces', image)  # show the image
+    # cv2.imshow('Collecting Faces', image)
     # Press 'ESC' for exiting video
     k = cv2.waitKey(100) & 0xff
     if k == 27:
@@ -108,6 +114,11 @@ while True:
         start_time = time.time()
     else:
         pass
+
+    info = (image, '2', '3', '4')
+    if not raw_q.full():
+        raw_q.put(info)
+    cv2.waitKey(1)
 
 # 新建目录
 if os.path.exists(os.path.join(args['imagedir'], args['id'])):
@@ -153,12 +164,18 @@ for action in action_list:
         img_OpenCV = cv2.cvtColor(np.asarray(img_PIL),
                                   cv2.COLOR_RGB2BGR)
 
-        cv2.imshow('Collecting Faces', img_OpenCV)  # show the image
+        # cv2.imshow('Collecting Faces', img_OpenCV)
 
         image_name = os.path.join(args['imagedir'], args['id'],
                                   action + '_' + str(counter) + '.jpg')
         cv2.imwrite(image_name, origin_img)
         # Press 'ESC' for exiting video
+
+        info = (image, '2', '3', '4')
+        if not raw_q.full():
+            raw_q.put(info)
+        cv2.waitKey(1)
+
         k = cv2.waitKey(100) & 0xff
         if k == 27:
             break
