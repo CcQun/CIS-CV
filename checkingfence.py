@@ -23,14 +23,12 @@ import argparse
 import time
 import dlib
 import cv2
-import os
-import subprocess
 
 from oldcare.utils.streampushassistant import stream_pusher
 
 if __name__ == '__main__':
     raw_q = multiprocessing.Queue()
-    my_pusher = stream_pusher(rtmp_url=get_path('rtmp_corridor_output', 2), raw_frame_q=raw_q)
+    my_pusher = stream_pusher(rtmp_url=get_path('rtmp_yard_output', 2), raw_frame_q=raw_q)
     my_pusher.run()
 
     fence_type = 3

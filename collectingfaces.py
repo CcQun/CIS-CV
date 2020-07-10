@@ -9,11 +9,7 @@ python collectingfaces.py --id 106 --imagedir /home/reed/git-project/
 
 '''
 import argparse
-
-import psutil
-import subprocess as sp
 from oldcare.facial import FaceUtil
-from oldcare.audio import audioplayer
 from oldcare.utils import communicationassistant
 from PIL import Image, ImageDraw, ImageFont
 from oldcare.utils.pathassistant import get_path

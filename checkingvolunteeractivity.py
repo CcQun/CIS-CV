@@ -26,7 +26,7 @@ from oldcare.utils.streampushassistant import stream_pusher
 
 if __name__ == '__main__':
     raw_q = multiprocessing.Queue()
-    my_pusher = stream_pusher(rtmp_url=get_path('rtmp_corridor_output', 2), raw_frame_q=raw_q)
+    my_pusher = stream_pusher(rtmp_url=get_path('rtmp_desk_output', 2), raw_frame_q=raw_q)
     my_pusher.run()
 
     # 更新一下people_info.csv
