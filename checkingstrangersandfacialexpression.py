@@ -103,6 +103,8 @@ if __name__ == '__main__':
         counter += 1
         # grab the current frame
         (grabbed, frame) = vs.read()
+        for i in range(5):
+            vs.grab()
 
         # if we are viewing a video and we did not grab a frame, then we
         # have reached the end of the video
