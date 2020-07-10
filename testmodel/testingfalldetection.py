@@ -68,7 +68,7 @@ while True:
     roi = np.expand_dims(roi, axis=0)
 
     # determine facial expression
-    (fall, normal) = model.predict(roi)[0]
+    (normal, fall) = model.predict(roi)[0]
     label = "Fall (%.2f)" % (fall) if fall > normal else "Normal (%.2f)" % (normal)
 
     # display the label and bounding box rectangle on the output frame
