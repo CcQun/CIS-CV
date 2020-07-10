@@ -29,7 +29,7 @@ if __name__ == '__main__':
     my_pusher = stream_pusher(rtmp_url=get_path('rtmp_room_output', 2), raw_frame_q=raw_q)
     my_pusher.run()
 
-    stranger_type = 0
+    stranger_type = 5
     old_smile_type = 1
 
     # 全局变量
