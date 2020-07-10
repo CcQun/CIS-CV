@@ -46,7 +46,7 @@ def inserting(event_desc, event_type, event_location, old_people_id, output_path
                 print('插入失败')
 
         print(os.path.join(output_path, path, 'snapshot.jpg'))
-        os.mkdirs(os.path.join(output_path, path))
+        os.mkdir(os.path.join(output_path, path))
         cv2.imwrite(os.path.join(output_path, path, 'snapshot.jpg'), frame)
     else:
         print('等待中')
