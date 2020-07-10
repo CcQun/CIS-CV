@@ -64,8 +64,8 @@ if __name__ == '__main__':
     my_pusher.run()
     while True:
         _, raw_frame = cap.read()
-        for i in range(5):
-            cap.grab()
+        # for i in range(5):
+        #     cap.grab()
         info = (raw_frame, '2', '3', '4')
         if not raw_q.full():
             raw_q.put(info)

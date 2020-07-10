@@ -50,7 +50,7 @@ if __name__ == '__main__':
     # We’ll be using a MobileNet Single Shot Detector (SSD),
     # “Single Shot Detectors for object detection”.
     model_file_path = get_path('model_file_path')
-    output_fence_path = get_path('output_fence_path')
+    output_fence_path = get_path('output_fence_path',1)
     input_video = args['filename']
     skip_frames = 30  # of skip frames between detections
 
