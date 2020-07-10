@@ -38,7 +38,7 @@ model = load_model(model_path)
 
 # if a video path was not supplied, grab the reference to the webcam
 if not input_video:
-    camera = cv2.VideoCapture(get_path('rtmp_room_input', 2))
+    camera = cv2.VideoCapture(0)
     time.sleep(2)
 else:
     camera = cv2.VideoCapture(input_video)

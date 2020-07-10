@@ -28,7 +28,7 @@ input_video = args['filename']
 
 # 初始化摄像头
 if not input_video:
-    vs = cv2.VideoCapture(get_path('rtmp_room_input', 2))
+    vs = cv2.VideoCapture(0)
     time.sleep(2)
 else:
     vs = cv2.VideoCapture(input_video)
