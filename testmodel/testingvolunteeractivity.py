@@ -131,7 +131,7 @@ while True:
         draw = ImageDraw.Draw(img_PIL)
         final_label = id_card_to_name[name]
         draw.text((left, top - 30), final_label,
-                  font=ImageFont.truetype('NotoSansCJK-Black.ttc',
+                  font=ImageFont.truetype('simsun.ttc',
                                           40), fill=(255, 0, 0))  # linux
         # 转换回OpenCV格式
         frame = cv2.cvtColor(np.asarray(img_PIL), cv2.COLOR_RGB2BGR)
