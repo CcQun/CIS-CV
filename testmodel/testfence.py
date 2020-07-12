@@ -98,7 +98,7 @@ while True:
     # resize the frame to have a maximum width of 500 pixels (the
     # less data we have, the faster we can process it), then convert
     # the frame from BGR to RGB for dlib
-    frame = imutils.resize(frame, width=500)
+    # frame = imutils.resize(frame, width=500)
     rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
 
     # if the frame dimensions are empty, set them
@@ -150,7 +150,8 @@ while True:
                 # box coordinates and then start the dlib correlation
                 # tracker
                 tracker = dlib.correlation_tracker()
-                rect = dlib.rectangle(startX, startY, endX, endY)
+                rect = dlib.rectangle(int(startX), int(startY), int(endX), int(endY))
+
                 tracker.start_track(rgb, rect)
 
                 # add the tracker to our list of trackers so we can
