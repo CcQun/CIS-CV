@@ -24,6 +24,7 @@ fall_dataset_path,dataset\falldataset
 fire_dataset_path,dataset\firedataset
 fall_output_plot_path,plots\fall_detection.png
 fire_output_plot_path,plots\fire_detection.png
+audio_path,audios
 rtmp_base,rtmp://182.92.84.33:1935/stream/base
 rtmp_computer_input,rtmp://182.92.84.33:1935/stream/base
 rtmp_room_input,rtmp://182.92.84.33:1935/stream/base

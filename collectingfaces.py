@@ -9,6 +9,8 @@ python collectingfaces.py --id 106 --imagedir /home/reed/git-project/
 
 '''
 import argparse
+
+from oldcare.audio import audioplayer
 from oldcare.facial import FaceUtil
 from oldcare.utils import communicationassistant
 from PIL import Image, ImageDraw, ImageFont
@@ -28,7 +30,7 @@ if __name__ == '__main__':
     my_pusher.run()
 
     # 全局参数
-    audio_dir = 'audios'
+    audio_dir = get_path('audio_path')
 
     # 控制参数
     error = 0
@@ -98,19 +100,19 @@ if __name__ == '__main__':
         face_count = len(face_location_list)
         if error == 0 and face_count == 0:  # 没有检测到人脸
             print('[WARNING] 没有检测到人脸')
-            # audioplayer.play_audio(os.path.join(audio_dir,
-            #                                     'no_face_detected.mp3'))
+            audioplayer.play_audio(os.path.join(audio_dir,
+                                                'no_face_detected.mp3'))
             error = 1
             start_time = time.time()
         elif error == 0 and face_count == 1:  # 可以开始采集图像了
             print('[INFO] 可以开始采集图像了')
-            # audioplayer.play_audio(os.path.join(audio_dir,
-            #                                     'start_image_capturing.mp3'))
+            audioplayer.play_audio(os.path.join(audio_dir,
+                                                'start_image_capturing.mp3'))
             break
         elif error == 0 and face_count > 1:  # 检测到多张人脸
             print('[WARNING] 检测到多张人脸')
-            # audioplayer.play_audio(os.path.join(audio_dir,
-            #                                     'multi_faces_detected.mp3'))
+            audioplayer.play_audio(os.path.join(audio_dir,
+                                                'multi_faces_detected.mp3'))
             error = 1
             start_time = time.time()
         else:
@@ -128,7 +130,7 @@ if __name__ == '__main__':
 
     # 开始采集人脸
     for action in action_list:
-        # audioplayer.play_audio(os.path.join(audio_dir, action + '.mp3'))
+        audioplayer.play_audio(os.path.join(audio_dir, action + '.mp3'))
         action_name = action_map[action]
         message = message_map[action]
 
@@ -193,7 +195,7 @@ if __name__ == '__main__':
     if response == 'error':
         print('[ERROR] 发送失败')
     print('[INFO] 采集完毕')
-    # audioplayer.play_audio(os.path.join(audio_dir, 'end_capturing.mp3'))
+    audioplayer.play_audio(os.path.join(audio_dir, 'end_capturing.mp3'))
 
     # 释放全部资源
     cam.release()
